@@ -11,15 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+
+//paging 
+Route::get('/{pageName?}', 'PageController@page')->name('page');
 
 //Aurthorization
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

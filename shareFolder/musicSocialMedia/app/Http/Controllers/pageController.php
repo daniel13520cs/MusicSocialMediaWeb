@@ -6,7 +6,13 @@ use Illuminate\Http\Request;
 
 class pageController extends Controller
 {
-    public function home(){
-        return view('home');
+
+    /**
+     * show eacho
+     */
+
+    public function page($pageName='home'){
+        return view($pageName);
     }
+
 }

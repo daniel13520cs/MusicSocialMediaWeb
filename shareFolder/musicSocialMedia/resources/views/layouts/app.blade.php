@@ -37,6 +37,11 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;
+                        <a href="{{ route('page', 'songs') }}">Songs</a>
+                        <a href="{{ route('page', 'artists') }}">Artists</a>
+                        <a href="{{ route('page', 'albums') }}">Albums</a>
+                        <a href="{{ route('page', 'people') }}">People</a>
+                        <a href="{{ route('page', 'playlists') }}">Playlists</a>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
