@@ -5,11 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <body>
-                    @foreach ($names as $key=>$name)
-                         <p>{{ $name->name }}</p>
-                    @endforeach
-                </body>
+                Error page.
             </div>
         </div>
     </div>

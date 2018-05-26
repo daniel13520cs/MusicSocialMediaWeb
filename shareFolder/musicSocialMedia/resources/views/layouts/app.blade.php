@@ -35,7 +35,7 @@
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
+                    <ul class="navbar-brand">
                         &nbsp;
                         <a href="{{ route('page', 'songs') }}">Songs</a>
                         <a href="{{ route('page', 'artists') }}">Artists</a>

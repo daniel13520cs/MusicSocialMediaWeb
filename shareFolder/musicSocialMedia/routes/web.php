@@ -12,10 +12,21 @@
 */
 
 
-//paging 
-Route::get('/{pageName?}', 'PageController@page')->name('page');
 
 //Aurthorization
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
+
+//Default page
+//Route::get('/', 'HomeController@index')->name('home');
+
+//paging 
+Route::get('/{pageName?}', 'PageController@page')->name('page'); 
+
+//adding to the playlist
+//Route::get('/{pageName?}/{tid?}', 'PageController@addToPlayList');
+
+
+
+
 
