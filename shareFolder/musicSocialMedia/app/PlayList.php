@@ -11,8 +11,8 @@ class PlayList extends Model
      *
      * @var array
      */
-    protected $table = 'UserPlaylist';
-    public $primaryKey = ['pid', 'uid'];
+    protected $table = 'Playlist';
+    public $primaryKey = ['pid'];
     public $timestamps = false;
     public $incrementing = false;
 

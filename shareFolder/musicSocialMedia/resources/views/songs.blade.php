@@ -1,15 +1,19 @@
 @extends('layouts.app')
 
-@section ('content')
-<form method="GET" action="{{ route('page', 'songs') }}">
-    <select name="add">
-        <option selected disabled>Choose one</option>
-        @foreach ($ttitles as $key=>$ttitle)
-            <option value="{{$ttitle->ttitle}}">{{$ttitle->ttitle}}</option>
-        @endforeach 
-    </select>
-    <button type="submit" onclick="window.location='{{ url("songs") }}'">Add to Playlist</button>
-</form>
+@section('content')
+
+@if(Auth::check()) 
+    <form method="GET" action="{{ route('page', 'songs') }}">
+        <select name="add">
+            <option selected disabled>Choose one</option>
+            @foreach ($ttitles as $key=>$ttitle)
+                <option value="{{$ttitle->ttitle}}">{{$ttitle->ttitle}}</option>
+            @endforeach 
+        </select>
+        <button type="submit" onclick="window.location='{{ url("songs") }}'">Add to Playlist</button>
+    </form>
+@endif
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -26,8 +26,6 @@ class pageController extends Controller
                 $tids = SongController::fetch("tid");
                 $ttitles = SongController::fetch("ttitle");
                 $result = view($pageName)->with('tids', $tids)->with('ttitles', $ttitles);
-                Log::debug($tids);
-                Log::debug($request->get('add'));
                 $selectTid = $request->input('add');
                 $this->addToPlayList($selectTid);
                 break;
@@ -44,8 +42,14 @@ class pageController extends Controller
                 $result = view($pageName)->with('names', $data);
                 break;
             case 'playlists':
-                $data = PlayListController::fetch();
-                $result = view($pageName)->with('pids', $data);
+                $data = null;
+                if(Auth::check()){
+                    if(!PlayListController::isPlaylistExist( Auth::id() ) ) {
+                        PlayListController::createPlayList(Auth::id(), Auth::id());
+                    }
+                    $data = PlayListController::fetch();
+                }
+                $result = view($pageName)->with('tids', $data);
                 break;
             default:
                 $result = view('home');
