@@ -8,7 +8,7 @@
                 <body>
                     @if(Auth::check())
                         @foreach ($followers as $key=>$follower)
-                            <p>{{ $follower->follower }}</p>
+                            <p>{{ $follower->name }}</p>
                         @endforeach
                     @else
                         please login to see your followers

@@ -8,11 +8,13 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Log;
+use App\Follower;
 
 class PeopleController extends Controller
 {
     public static function fetch($col) {
         $people = People::select($col)->take(30)->get();
+        Log::debug($people);
         return $people;
         
     }
@@ -25,12 +27,26 @@ class PeopleController extends Controller
         return $id[0]->id;
     }
 
-    public static function follow($selectID, $id){
-        if($selectID != null){
+    public static function getUserCol($hasColName, $hasColVal, $wantCol){
+        if($hasColVal == null){
+            return null;
+        }
+        return User::select($wantCol)->where($hasColName, "=", $hasColVal)->get();
+    }
+
+
+    public static function follow($id, $selectID){
+        if(($selectID != null) && !PeopleController::isExist($id, $selectID)){
             DB::table('Follow')->insert(
-                ['follower' => $selectID, 'followee' => $id, 'ftime' => Carbon::now()]
+                ['follower' => $id, 'followee' => $selectID, 'ftime' => Carbon::now()]
             );
         }
+    }
+
+    public static function isExist($id, $selectID){
+        $res = Follower::select('*')->where("follower", "=", $id)->where("followee", "=", $selectID)->get();
+        $res = get_object_vars($res);
+        return !empty(array_filter($res));
     }
 
     

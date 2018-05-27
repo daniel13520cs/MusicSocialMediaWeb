@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Follower;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 
 class FollowerController extends Controller
 {
     public static function fetch($id) {
-        $followers = Follower::select('follower')->where('followee', '=', $id)->get();
-        return $followers;
+        $followerNames = DB::select('select name from users 
+                                     where id in (select follower from Follow where followee = ?)', [$id]);
+        return $followerNames;
     }
-}
+}   

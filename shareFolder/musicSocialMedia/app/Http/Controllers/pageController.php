@@ -43,7 +43,7 @@ class pageController extends Controller
                 $result = view($pageName)->with('names', $data);
                 //follow the person
                 $selectID = PeopleController::getID($request->input('follow'));
-                PeopleController::follow($selectID, Auth::id());
+                PeopleController::follow(Auth::id(),$selectID);
 
                 break;
             case 'playlists':
