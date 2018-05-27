@@ -21,6 +21,7 @@ class pageController extends Controller
 
     public function page(Request $request, $pageName='home'){
         $result = view($pageName);
+        $data = null;
         switch($pageName){
             case 'songs':
                 $tids = SongController::fetch("tid");
@@ -38,11 +39,14 @@ class pageController extends Controller
                 $result = view($pageName)->with('aids', $data);
                 break;
             case 'people':
-                $data = PeopleController::fetch();
+                $data = PeopleController::fetch('name');
                 $result = view($pageName)->with('names', $data);
+                //follow the person
+                $selectID = PeopleController::getID($request->input('follow'));
+                PeopleController::follow($selectID, Auth::id());
+
                 break;
             case 'playlists':
-                $data = null;
                 if(Auth::check()){
                     if(!PlayListController::isPlaylistExist( Auth::id() ) ) {
                         PlayListController::createPlayList(Auth::id(), Auth::id());
@@ -50,6 +54,13 @@ class pageController extends Controller
                     $data = PlayListController::fetch();
                 }
                 $result = view($pageName)->with('tids', $data);
+                break;
+            case 'followers':
+                if(Auth::guest()){
+                    break;
+                }
+                $data = FollowerController::fetch(Auth::id());
+                $result = view($pageName)->with('followers', $data);
                 break;
             default:
                 $result = view('home');
@@ -64,6 +75,8 @@ class pageController extends Controller
             SongController::storeToPlayList($tid);
         }
     }
+
+
 
     // public function pageK($pageName='home', $controller, $column){
     //     if($controller == null || $column == null){

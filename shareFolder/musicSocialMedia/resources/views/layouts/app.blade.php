@@ -42,6 +42,7 @@
                         <a href="{{ route('page', 'albums') }}">Albums</a>
                         <a href="{{ route('page', 'people') }}">People</a>
                         <a href="{{ route('page', 'playlists') }}">Playlists</a>
+                        <a href="{{ route('page', 'followers') }}">Followers</a>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

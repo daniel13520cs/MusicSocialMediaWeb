@@ -40,7 +40,6 @@ class PlayListController extends Controller
     public static function getPid($id){
         $pid = [];
         $pidObj = DB::select('select pid from UserPlaylist where id = :id', ['id' => $id]);
-        Log::debug($pidObj);
         if($pidObj == null){
             return $pid;
         }
