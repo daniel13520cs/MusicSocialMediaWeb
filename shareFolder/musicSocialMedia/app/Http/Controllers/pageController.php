@@ -26,8 +26,8 @@ class pageController extends Controller
             case 'songs':
                 $tids = SongController::fetch("tid");
                 $ttitles = SongController::fetch("ttitle");
-                $result = view($pageName)->with('tids', $tids)->with('ttitles', $ttitles);
-                $selectTid = $request->input('add');
+                $result = view($pageName)->with('tids', $tids)->with('ttitles', $ttitles)->with('pageName', 'songs');
+                $selectTid = $request->input('selectVal');
                 $this->addToPlayList($selectTid);
                 break;
             case 'albums':
@@ -40,9 +40,9 @@ class pageController extends Controller
                 break;
             case 'people':
                 $data = PeopleController::fetch('name');
-                $result = view($pageName)->with('names', $data);
+                $result = view($pageName)->with('names', $data)->with('pageName', 'people');
                 //follow the person
-                $selectID = PeopleController::getID($request->input('follow'));
+                $selectID = PeopleController::getID($request->input('selectVal'));
                 PeopleController::follow(Auth::id(),$selectID);
 
                 break;

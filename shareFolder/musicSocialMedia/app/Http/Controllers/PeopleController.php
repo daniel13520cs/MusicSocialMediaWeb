@@ -44,9 +44,8 @@ class PeopleController extends Controller
     }
 
     public static function isExist($id, $selectID){
-        $res = Follower::select('*')->where("follower", "=", $id)->where("followee", "=", $selectID)->get();
-        $res = get_object_vars($res);
-        return !empty(array_filter($res));
+        $res = Follower::select('ftime')->where("follower", "=", $id)->where("followee", "=", $selectID)->get();
+        return !$res->isEmpty();
     }
 
     

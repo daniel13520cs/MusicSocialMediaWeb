@@ -34,8 +34,7 @@ class SongController extends Controller
 
     public static function isExist($tid, $pid){
         $res = DB::table('PlaylistTrack')->select('*')->where("tid", "=", $tid)->where("pid", "=", $pid)->get();
-        $res = get_object_vars($res);
-        return !empty(array_filter($res));
+        return !$res->isEmpty();
     }
 
 

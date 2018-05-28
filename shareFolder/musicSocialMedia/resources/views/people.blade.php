@@ -1,30 +1,23 @@
-@extends('layouts.app')
+@extends('layouts.display')
 
-@section('content')
 
-@if(Auth::check()) 
-    <form method="GET" action="{{ route('page', 'people') }}">
-        <select name="follow">
-            <option selected disabled>Choose one</option>
-            @foreach ($names as $key=>$name)
-                <option value="{{$name->name}}">{{$name->name}}</option>
-            @endforeach 
-        </select>
-        <button type="submit" >Follow</button>
-    </form>
-@endif
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <body>
-                    @foreach ($names as $key=>$name)
-                         <p>{{ $name->name }}</p>
-                    @endforeach
-                </body>
-            </div>
-        </div>
-    </div>
-</div>
+@section('optionVals')
+    @foreach ($names as $key=>$name)
+         <option value="{{$name->name}}">{{$name->name}}</option>
+    @endforeach 
 @endsection
+
+
+@section('options')
+<button type="submit" >Follow</button>
+@endsection
+
+@section('result')
+@foreach ($names as $key=>$name)
+    <p>{{ $name->name }}</p>
+@endforeach
+@endsection
+
+
+
+
