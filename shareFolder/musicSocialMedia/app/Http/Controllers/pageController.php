@@ -5,20 +5,32 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Artist;
+
 
 
 
 class pageController extends Controller
 {
 
+    private $id;
+    public $artist;
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->artist = new Artist;
+        $this->like = new LikeController;
+    }
+
     /**
      * select web pages 
      * 
      * @return view
      */
-    private $id;
-
-
     public function page(Request $request, $pageName='home'){
         $result = view($pageName);
         $data = null;
@@ -35,8 +47,12 @@ class pageController extends Controller
                 $result = view($pageName)->with('alids', $data);
                 break;
             case 'artists':
-                $data = ArtistController::fetch();
-                $result = view($pageName)->with('aids', $data);
+                $aids = $this->artist->fetch("aid", 10);
+                $anames = $this->artist->fetch("aname", 10);
+                $result = view($pageName)->with('anames', $anames)->with("aids", $aids)->with('pageName', 'artists');
+                //like the artist
+                Log::debug($this->id);
+                $this->like->store($request, Auth::id()) ;
                 break;
             case 'people':
                 $data = PeopleController::fetch('name');

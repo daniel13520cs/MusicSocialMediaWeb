@@ -3,21 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\AppDBModel;
 
-class Artist extends AppDBModel
+class Like extends AppDBModel
 {
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $table = 'Artist';
-    public $primaryKey = 'aid';
+    protected $table = 'Likes';
+    public $primaryKey = ['id', 'aid'];
     public $timestamps = false;
     public $incrementing = false;
-
-
 
 
 }

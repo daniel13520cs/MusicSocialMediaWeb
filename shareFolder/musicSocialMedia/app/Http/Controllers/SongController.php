@@ -25,6 +25,7 @@ class SongController extends Controller
         $id = Auth::id();
         $pidObj = DB::select('select pid from UserPlaylist where id = :id', ['id' => $id]);
         $tidObj = DB::select('select tid from Track where ttitle = :ttitle', ['ttitle' => $ttitle]);
+        Log::debug($pidObj);
         $pids = get_object_vars($pidObj[0]);
         $tids = get_object_vars($tidObj[0]);
         if(!SongController::isExist($tids['tid'], $pids['pid'])){
