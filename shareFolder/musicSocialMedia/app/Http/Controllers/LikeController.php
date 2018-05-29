@@ -6,6 +6,7 @@ use App\Like;
 use App\Artist;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class LikeController extends Controller
 {
@@ -15,10 +16,13 @@ class LikeController extends Controller
         $artist = new Artist;
         $like->id = $id;
         $aname = $request->input('selectVal');
-        $like->aid = $artist->getCol("aid", "aname", $aname);
+        Log::debug($aname);
+        $like->aid = $artist->getPCol("aid", "aname", $aname);
         $like->ltime = Carbon::now();
         if($like->aid != null && $like->id != null){
-            $like->save();
+            Like::firstOrCreate(
+                ['id' => $like->id], ['aid' => $like->aid], ['ltime', $like->ltime]
+            );
         }
     }
     

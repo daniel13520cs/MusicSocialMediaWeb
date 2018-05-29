@@ -13,6 +13,11 @@ class AppDBModel extends Model
 {
 
 
+    /**
+     * get first given number of fetch rows 
+     * 
+     * @return object
+     */
     public function fetch($colName, $num){
         if($colName == null || $num < 0){
             return null;
@@ -22,22 +27,42 @@ class AppDBModel extends Model
     }
 
     /**
-     * get Col values of the given table
+     * get Primary Col values of the given table
      * 
-     * return an array in format of $hasColName=>$hasCol
+     * @return a single value
      */
-    public function getCol($targetCol,  $hasColName, $hasColVal){
-        $resObj = DB::table($this->table)->select($targetCol)->where($hasColName, $hasColVal)->get();
-        Log::debug($resObj);
-        return $this->get_object_vars_array($resObj);
+    public function getPCol($targetCol,  $hasColName, $hasColVal){
+        $res = DB::table($this->table)->select($targetCol)->where($hasColName, $hasColVal)->get();
+        return get_object_vars($res[0])[$targetCol];
     }
 
-
-    private function get_object_vars_array($resObj){
-        //Log::debug(get_object_vars($resObj));
-        //return get_object_vars($resObj);
-        return null;
+    /**
+     * get Primary Col values of the given table
+     * 
+     * @return an array of values
+     */
+    public function getNonPCol($targetCol,  $hasColName, $hasColVal){
+        $res = DB::table($this->table)->select($targetCol)->where($hasColName, $hasColVal)->get(); 
+        return get_obj_vars_array($res, $targetCol);
     }
+
+    /**
+     * get the values stored in the give object
+     * 
+     * @return an array of values
+     */
+    private function get_obj_vars_array($objs, $targetCol){
+        $res = [];
+        if($objs == null || $targetCol == null){
+            return $res;
+        }
+        foreach($objs as $key=>$obj){
+            $arr = get_object_vars($obj);
+            array_push(res, $arr[$targetCol]);
+        }
+        return $res;
+    }
+
 
 
 

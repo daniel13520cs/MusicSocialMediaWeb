@@ -7,7 +7,7 @@
     @endforeach 
 @endsection
 
-
+ 
 @section('options')
 <button type="submit" >Follow</button>
 @endsection
