@@ -11,19 +11,22 @@ use Illuminate\Support\Facades\Log;
 class LikeController extends Controller
 {
     
+    /**
+     * insert like relation in Likes
+     * 
+     * @return void
+     */
     public function store(Request $request, $id){
-        $like = new Like;
-        $artist = new Artist;
-        $like->id = $id;
-        $aname = $request->input('selectVal');
-        Log::debug($aname);
-        $like->aid = $artist->getPCol("aid", "aname", $aname);
-        $like->ltime = Carbon::now();
-        if($like->aid != null && $like->id != null){
-            Like::firstOrCreate(
-                ['id' => $like->id], ['aid' => $like->aid], ['ltime', $like->ltime]
-            );
+        if($request->input('selectVal') == null || $id == null){
+            return;
         }
+        $artist = new Artist;
+        $aname = $request->input('selectVal');
+        $aid = $artist->getPCol("aid", "aname", $aname);
+        $like->ltime = Carbon::now();
+        Like::firstOrCreate(
+            ['id' => $id], ['aid' => $aid], ['ltime',  Carbon::now()]
+        );
     }
     
 }
