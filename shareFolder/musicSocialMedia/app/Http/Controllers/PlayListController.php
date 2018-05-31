@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\PlayList;
+use App\Playlist;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
-
+use App\PlaylistTrack;  
+use App\UserPlaylist;
 
 
 class PlayListController extends DBController
@@ -52,14 +53,34 @@ class PlayListController extends DBController
      * 
      * @return void
      */
-    public function store(Request $request, $id){
+    public function createPlaylist(Request $request, $id){
         if($id == null){
             return;
         }
-        Playlist::firstOrCreate(
-            ['ptitle' => 'decidedByUser'], ['pdate',  Carbon::now()], ['id' => $id], ["status" => "created"]      
+        PlayList::insert(
+            ['ptitle' => "pop", 'pdate' => Carbon::now(), 'id' => Auth::id(), 'status' => 'assigned']
         );
+        $pidObj = $this->model->select("pid")->where("status", "assigned")->where("id", $id)->get();
+        Log::debug($pidObj);
+        //$pid = Utility::get_obj_vars_array($pidObj, "pid");
+        UserPlaylist::firstOrCreate(
+            ['id' => $id], ['pid' => $pidObj[0]["pid"]]
+        );
+        //TODO: update status from assigned to created
     }
+
+
+    /**
+     * get the playlist tracks belong to the give user id
+     * 
+     * @return an array of objects
+     */
+    public function getPlaylistTracks($id){
+        $playlistTrack = new PlaylistTrack;
+        $res = DB::table($playlistTrack->table)->join('UserPlaylist', 'PlaylistTrack.pid', '=', 'UserPlaylist.pid') ->select("tid")->where("id", $id)->get();
+        return $res;
+    }
+
 
 
     public function isPlaylistExist($id){
@@ -67,13 +88,13 @@ class PlayListController extends DBController
         return !empty($pid);
     }
 
-    public static function createPlayList($id, $pid){
-        $user = Auth::user();
-        PlayList::insert(
-            ['pid' => $user->id, 'ptitle' => $user->name, 'pdate' => Carbon::now(), 'id' => $user->id, 'status' => 'created']
-        );
-        DB::insert('insert into UserPlaylist (id, pid) values (?,?)', [$user->id, $user->id] );
-    }
+    // public static function createPlayList($id, $pid){
+    //     $user = Auth::user();
+    //     PlayList::insert(
+    //         ['pid' => $user->id, 'ptitle' => $user->name, 'pdate' => Carbon::now(), 'id' => $user->id, 'status' => 'created']
+    //     );
+    //     DB::insert('insert into UserPlaylist (id, pid) values (?,?)', [$user->id, $user->id] );
+    // }
 
     public static function getPid($id){
         $pid = [];

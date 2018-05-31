@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PlayList extends AppDBModel
+class Playlist extends AppDBModel
 {
      /**
      * The attributes that are mass assignable.
@@ -14,5 +14,9 @@ class PlayList extends AppDBModel
     protected $table = 'Playlist';
     public $primaryKey = 'pid';
     public $timestamps = false;
+
+    protected $guarded = [];
+
+    //public $fillable = ['pid', 'ptitle', 'pdate', 'id', 'status'];
 
 }

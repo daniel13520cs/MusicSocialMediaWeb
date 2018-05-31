@@ -33,20 +33,9 @@ class AppDBModel extends Model
      */
     public function getCol($targetCol,  $hasColName, $hasColVal){
         $res = DB::table($this->table)->select($targetCol)->where($hasColName, $hasColVal)->get();
-        //return get_object_vars($res[0])[$targetCol];
-        //Log::debug($this->get_obj_vars_array($res, $targetCol));
-        return $this->get_obj_vars_array($res, $targetCol);
-    }
-
-    /**
-     * get Primary Col values of the given table
-     * 
-     * @return an array of values
-     */
-    public function getNonPCol($targetCol,  $hasColName, $hasColVal){
-        $res = DB::table($this->table)->select($targetCol)->where($hasColName, $hasColVal)->get(); 
-        return $res;
+        Log::debug("result ="); Log::debug($res);
         //return $this->get_obj_vars_array($res, $targetCol);
+        return $res;
     }
 
     /**

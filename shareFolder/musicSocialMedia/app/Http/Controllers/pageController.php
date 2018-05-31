@@ -30,7 +30,7 @@ class pageController extends Controller
         $this->likeCtl = new LikeController;
         $this->peopleCtl = new PeopleController;
         $this->playlistCtl = new PlaylistController(new PlayList);
-        $this->dbCtl = new DBController;
+        $this->dbCtl = new DBController; 
     }
 
     /**
@@ -67,18 +67,12 @@ class pageController extends Controller
                 $this->peopleCtl->store($request, Auth::id());
                 break;
             case 'playlists':
-                //if(Auth::check()){
-                    if(!$this->playlistCtl->isPlaylistExist( Auth::id() ) ) {
-                        $this->playlistCtl->store($request, Auth::id());
-                    }
-                    $pid = $this->playlistCtl->getCol("pid", "id", Auth::id());
-                    $this->dbCtl->setModel(new PlaylistTrack);
-                    $data = $this->dbCtl->getCol("tid", "pid", $pid);
-                    Log::debug("data");
-                    Log::debug($data);
-                //}
+                if(!$this->playlistCtl->isPlaylistExist( Auth::id() ) ) {
+                    $this->playlistCtl->createPlaylist($request, Auth::id());
+                }
+                $data = $this->playlistCtl->getPlaylistTracks(Auth::id());
                 //add to playlist
-                $this->songCtl->store($request, Auth::id());
+                //$this->songCtl->store($request, Auth::id());
                 $result = view($pageName)->with('tids', $data);
                 break;
             case 'followers':
