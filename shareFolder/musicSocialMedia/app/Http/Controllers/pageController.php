@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Artist;
+use App\Song;
+use App\Playlist;
+use App\PlaylistTrack;
 
 
 
@@ -22,8 +25,12 @@ class pageController extends Controller
      */
     public function __construct()
     {
-        $this->artist = new Artist;
-        $this->like = new LikeController;
+        $this->songCtl = new SongController(new Song);
+        $this->artist = new  Artist;
+        $this->likeCtl = new LikeController;
+        $this->peopleCtl = new PeopleController;
+        $this->playlistCtl = new PlaylistController(new PlayList);
+        $this->dbCtl = new DBController;
     }
 
     /**
@@ -51,24 +58,27 @@ class pageController extends Controller
                 $anames = $this->artist->fetch("aname", 10);
                 $result = view($pageName)->with('anames', $anames)->with("aids", $aids)->with('pageName', 'artists');
                 //like the artist
-                Log::debug($this->id);
-                $this->like->store($request, Auth::id()) ;
+                $this->likeCtl->store($request, Auth::id()) ;
                 break;
             case 'people':
                 $data = PeopleController::fetch('name');
                 $result = view($pageName)->with('names', $data)->with('pageName', 'people');
                 //follow the person
-                $selectID = PeopleController::getID($request->input('selectVal'));
-                PeopleController::follow(Auth::id(),$selectID);
-
+                $this->peopleCtl->store($request, Auth::id());
                 break;
             case 'playlists':
-                if(Auth::check()){
-                    if(!PlayListController::isPlaylistExist( Auth::id() ) ) {
-                        PlayListController::createPlayList(Auth::id(), Auth::id());
+                //if(Auth::check()){
+                    if(!$this->playlistCtl->isPlaylistExist( Auth::id() ) ) {
+                        $this->playlistCtl->store($request, Auth::id());
                     }
-                    $data = PlayListController::fetch();
-                }
+                    $pid = $this->playlistCtl->getCol("pid", "id", Auth::id());
+                    $this->dbCtl->setModel(new PlaylistTrack);
+                    $data = $this->dbCtl->getCol("tid", "pid", $pid);
+                    Log::debug("data");
+                    Log::debug($data);
+                //}
+                //add to playlist
+                $this->songCtl->store($request, Auth::id());
                 $result = view($pageName)->with('tids', $data);
                 break;
             case 'followers':

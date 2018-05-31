@@ -31,9 +31,11 @@ class AppDBModel extends Model
      * 
      * @return a single value
      */
-    public function getPCol($targetCol,  $hasColName, $hasColVal){
+    public function getCol($targetCol,  $hasColName, $hasColVal){
         $res = DB::table($this->table)->select($targetCol)->where($hasColName, $hasColVal)->get();
-        return get_object_vars($res[0])[$targetCol];
+        //return get_object_vars($res[0])[$targetCol];
+        //Log::debug($this->get_obj_vars_array($res, $targetCol));
+        return $this->get_obj_vars_array($res, $targetCol);
     }
 
     /**
@@ -43,7 +45,8 @@ class AppDBModel extends Model
      */
     public function getNonPCol($targetCol,  $hasColName, $hasColVal){
         $res = DB::table($this->table)->select($targetCol)->where($hasColName, $hasColVal)->get(); 
-        return get_obj_vars_array($res, $targetCol);
+        return $res;
+        //return $this->get_obj_vars_array($res, $targetCol);
     }
 
     /**
@@ -56,13 +59,13 @@ class AppDBModel extends Model
         if($objs == null || $targetCol == null){
             return $res;
         }
-        foreach($objs as $key=>$obj){
-            $arr = get_object_vars($obj);
-            array_push(res, $arr[$targetCol]);
+        for($i = 0 ; $i < sizeof($objs); $i++){
+            $arr = get_object_vars($objs[$i]);
+            array_push($res, $arr[$targetCol]);
+            //array_push($res, [$arr[$targetCol]);
         }
         return $res;
     }
-
 
 
 

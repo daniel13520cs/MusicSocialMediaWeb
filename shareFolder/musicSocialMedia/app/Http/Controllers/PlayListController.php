@@ -11,21 +11,59 @@ use Carbon\Carbon;
 
 
 
-class PlayListController extends Controller
+class PlayListController extends DBController
 {
-    public static function fetch() {
-        $userPlaylist = null;
-        if(Auth::check()){
-            $pid = PlayListController::getPid(Auth::id());
-            $userPlaylist = DB::select('select tid from PlaylistTrack where pid = :pid', ['pid' => $pid]);
+
+
+    // public static function fetch() {
+    //     $userPlaylist = null;
+    //     if(Auth::check()){
+    //         $pid = PlayListController::getPid(Auth::id());
+    //         $userPlaylist = DB::select('select tid from PlaylistTrack where pid = :pid', ['pid' => $pid]);
+    //     }
+    //     return $userPlaylist;
+    // }
+
+
+
+    public function __construct()
+    {
+        $this->model = new Playlist;
+    }
+
+    public function fetch(){
+        return $this->playlist->fetch("pid", 10);
+    }
+
+    // public function getCol($targetCol,  $hasColName, $hasColVal){
+    //     if(!Utility::isInputValid($targetCol, $hasColName, $hasColVal)){
+    //         return;
+    //     }
+    //     $primaryKey = $this->playlist->getPKey();
+    //     if(!strcmp($targetCol, $primaryKey)){
+    //         $this->playlist->getPCol($targetCol,  $hasColName, $hasColVal);
+    //     }
+    //     $this->playlist->getNonPCol($targetCol,  $hasColName, $hasColVal);
+    // }
+
+    
+    /**
+     * insert like relation in Likes
+     * 
+     * @return void
+     */
+    public function store(Request $request, $id){
+        if($id == null){
+            return;
         }
-        return $userPlaylist;
+        Playlist::firstOrCreate(
+            ['ptitle' => 'decidedByUser'], ['pdate',  Carbon::now()], ['id' => $id], ["status" => "created"]      
+        );
     }
 
 
-    public static function isPlaylistExist($id){
+    public function isPlaylistExist($id){
         $pid = PlayListController::getPid($id);
-        Log::debug($pid);
         return !empty($pid);
     }
 

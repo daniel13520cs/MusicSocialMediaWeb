@@ -19,6 +19,20 @@ class PeopleController extends Controller
         
     }
 
+    /**
+     * insert like relation in Likes
+     * 
+     * @return void
+     */
+    public function store(Request $request, $id){
+        if($request->input('selectVal') == null || $id == null){
+            return;
+        }
+        Follower::firstOrCreate(
+            ['follower' => $id], ['followee' => $request->input('selectVal')], ['ftime',  Carbon::now()]
+        );
+    }
+
     public static function getID($col){
         if($col == null){
             return null;
