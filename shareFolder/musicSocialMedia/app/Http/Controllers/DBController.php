@@ -27,11 +27,6 @@ class DBController extends Controller
             return;
         }
         $primaryKey = $this->model->getKeyName();
-        // if($this->isPrimaryKey($targetCol)){
-        //     Log::debug("isPrimaryKey!");
-        //     return $this->model->getPCol($targetCol,  $hasColName, $hasColVal);
-        // }
-        // return $this->model->getNonPCol($targetCol,  $hasColName, $hasColVal);
         return $this->model->getCol($targetCol,  $hasColName, $hasColVal);
     }
 

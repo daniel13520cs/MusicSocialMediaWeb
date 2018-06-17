@@ -16,17 +16,6 @@ class PlayListController extends DBController
 {
 
 
-    // public static function fetch() {
-    //     $userPlaylist = null;
-    //     if(Auth::check()){
-    //         $pid = PlayListController::getPid(Auth::id());
-    //         $userPlaylist = DB::select('select tid from PlaylistTrack where pid = :pid', ['pid' => $pid]);
-    //     }
-    //     return $userPlaylist;
-    // }
-
-
-
     public function __construct()
     {
         $this->model = new Playlist;
@@ -36,18 +25,6 @@ class PlayListController extends DBController
         return $this->playlist->fetch("pid", 10);
     }
 
-    // public function getCol($targetCol,  $hasColName, $hasColVal){
-    //     if(!Utility::isInputValid($targetCol, $hasColName, $hasColVal)){
-    //         return;
-    //     }
-    //     $primaryKey = $this->playlist->getPKey();
-    //     if(!strcmp($targetCol, $primaryKey)){
-    //         $this->playlist->getPCol($targetCol,  $hasColName, $hasColVal);
-    //     }
-    //     $this->playlist->getNonPCol($targetCol,  $hasColName, $hasColVal);
-    // }
-
-    
     /**
      * insert like relation in Likes
      * 
@@ -81,20 +58,16 @@ class PlayListController extends DBController
         return $res;
     }
 
-
-
+    /**
+     * check if the user has at least one playlist 
+     * 
+     * @return true the playlsit exists
+     */
     public function isPlaylistExist($id){
         $pid = PlayListController::getPid($id);
         return !empty($pid);
     }
 
-    // public static function createPlayList($id, $pid){
-    //     $user = Auth::user();
-    //     PlayList::insert(
-    //         ['pid' => $user->id, 'ptitle' => $user->name, 'pdate' => Carbon::now(), 'id' => $user->id, 'status' => 'created']
-    //     );
-    //     DB::insert('insert into UserPlaylist (id, pid) values (?,?)', [$user->id, $user->id] );
-    // }
 
     public static function getPid($id){
         $pid = [];

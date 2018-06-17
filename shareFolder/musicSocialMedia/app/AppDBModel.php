@@ -33,20 +33,21 @@ class AppDBModel extends Model
      */
     public function getCol($targetCol,  $hasColName, $hasColVal){
         $res = DB::table($this->table)->select($targetCol)->where($hasColName, $hasColVal)->get();
-        Log::debug("result ="); Log::debug($res);
-        //return $this->get_obj_vars_array($res, $targetCol);
         return $res;
     }
 
     /**
-     * get the values stored in the give object
+     * get the values stored in the given object
      * 
      * @return an array of values
      */
-    private function get_obj_vars_array($objs, $targetCol){
+    public function get_obj_vars_array($objs, $targetCol){
         $res = [];
         if($objs == null || $targetCol == null){
             return $res;
+        }
+        if(sizeof($objs) == 1){
+            return get_object_vars($objs[0])[$targetCol];
         }
         for($i = 0 ; $i < sizeof($objs); $i++){
             $arr = get_object_vars($objs[$i]);

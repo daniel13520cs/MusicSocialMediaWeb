@@ -4,18 +4,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Follower extends Model
+class Users extends AppDBModel
 {
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $table = 'Follow';
-    public $primaryKey = ['follower', 'followee'];
+    protected $table = 'users';
+    public $primaryKey = ['id'];
     public $timestamps = false;
     public $incrementing = false;
 
     protected $guarded = [];
+
+
 
 }

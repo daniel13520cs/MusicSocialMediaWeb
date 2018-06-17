@@ -28,16 +28,13 @@ class SongController extends DBController
         if($request->input('selectVal') == null || $id == null){
             return;
         }
-        $tid = $this->model->getPCol('tid', 'ttitle', $request->input('selectVal')); 
+        $tid = $this->model->getCol('tid', 'ttitle', $request->input('selectVal')); 
         PlaylistTrack::firstOrCreate(
             ['tid' => $tid], ['ttitle' => $request->input('selectVal')], ['ptorder' => 1 ]
         );
         
     }
 
-
-
-    //for now pid = id :next
     public static function storeToPlayList($ttitle){
         $id = Auth::id();
         $pidObj = DB::select('select pid from UserPlaylist where id = :id', ['id' => $id]);

@@ -16,5 +16,8 @@ class Like extends AppDBModel
     public $timestamps = false;
     public $incrementing = false;
 
+    protected $guarded = [];
+
+
 
 }

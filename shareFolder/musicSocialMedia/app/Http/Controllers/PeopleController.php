@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Log;
 use App\Follower;
+use App\Users;
+
 
 class PeopleController extends Controller
 {
@@ -28,8 +30,13 @@ class PeopleController extends Controller
         if($request->input('selectVal') == null || $id == null){
             return;
         }
-        Follower::firstOrCreate(
-            ['follower' => $id], ['followee' => $request->input('selectVal')], ['ftime',  Carbon::now()]
+        $name = $request->input('selectVal');
+        $user = new Users;
+        $obj = $user->getCol("id", "name", $name);
+        $fid = $user->get_obj_vars_array($obj , "id"); 
+        $create = Follower::firstOrCreate(
+            ['follower' => $id, 'followee' => $fid ],
+            ['ftime' =>  Carbon::now()]
         );
     }
 

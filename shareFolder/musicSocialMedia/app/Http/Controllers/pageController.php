@@ -28,7 +28,7 @@ class pageController extends Controller
         $this->songCtl = new SongController(new Song);
         $this->artist = new  Artist;
         $this->likeCtl = new LikeController;
-        $this->peopleCtl = new PeopleController;
+        $this->peopleCtl = new PeopleController; 
         $this->playlistCtl = new PlaylistController(new PlayList);
         $this->dbCtl = new DBController; 
     }
@@ -58,7 +58,7 @@ class pageController extends Controller
                 $anames = $this->artist->fetch("aname", 10);
                 $result = view($pageName)->with('anames', $anames)->with("aids", $aids)->with('pageName', 'artists');
                 //like the artist
-                $this->likeCtl->store($request, Auth::id()) ;
+                $this->likeCtl->store($request, Auth::id());
                 break;
             case 'people':
                 $data = PeopleController::fetch('name');
@@ -98,16 +98,16 @@ class pageController extends Controller
 
 
 
-    // public function pageK($pageName='home', $controller, $column){
-    //     if($controller == null || $column == null){
-    //         return view($pageName);
-    //     }
-    //     $data = $controller:: fetch();
-    //     $result = view($pageName)->with($column, $data);
-    //     return $result;
-    // }
+    public function index($pageName='home', $controller){
+        if($controller == null || $column == null){
+            return view($pageName);
+        }
+        $data = $controller::fetch(); 
+        $result = view($pageName)->with($column, $data);
+        
 
+    }
 
-
+    
     
 }

@@ -15,4 +15,7 @@ class People extends Model
     public $primaryKey = 'id';
     public $timestamps = false;
     public $incrementing = true;
+
+    protected $guarded = [];
+
 }
