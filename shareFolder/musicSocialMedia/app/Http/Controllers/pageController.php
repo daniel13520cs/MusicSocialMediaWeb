@@ -31,6 +31,7 @@ class pageController extends Controller
         $this->peopleCtl = new PeopleController; 
         $this->playlistCtl = new PlaylistController(new PlayList);
         $this->dbCtl = new DBController; 
+        $this->socialCtl = new SocialController;
     }
 
     /**
@@ -83,8 +84,8 @@ class pageController extends Controller
                 $result = view($pageName)->with('followers', $data);
                 break;
             default:
-                $result = view('home');
-            
+                $activities = $this->socialCtl->fetchActivity(Auth::id());
+                $result = view($pageName)->with('activities', $activities);
         }
         return $result;
     }

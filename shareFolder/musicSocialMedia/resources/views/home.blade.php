@@ -14,7 +14,14 @@
                         </div>
                     @endif
 
-                    This is home page.
+                    @if (Auth::check())
+                        @foreach ($activities as $key=>$activity)
+                            <p>{{ $activity->name }} likes {{ $activity->aname }} on {{ $activity->ltime }}</p>
+                        @endforeach 
+                    @else
+                        This is home page. 
+                    @endif
+
                 </div>
             </div>
         </div>

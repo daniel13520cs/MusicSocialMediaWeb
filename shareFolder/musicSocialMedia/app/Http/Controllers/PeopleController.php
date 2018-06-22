@@ -39,7 +39,7 @@ class PeopleController extends Controller
             ['ftime' =>  Carbon::now()]
         );
     }
-
+    
     public static function getID($col){
         if($col == null){
             return null;
