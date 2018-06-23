@@ -44,10 +44,15 @@ class pageController extends Controller
         $data = null;
         switch($pageName){
             case 'songs':
+                //check if the user has the playlsit already
                 $tids = SongController::fetch("tid");
                 $ttitles = SongController::fetch("ttitle");
                 $result = view($pageName)->with('tids', $tids)->with('ttitles', $ttitles)->with('pageName', 'songs');
                 $selectTid = $request->input('selectVal');
+                //create playlsit if it does not exist 
+                if(!$this->playlistCtl->isPlaylistExist( Auth::id() ) ) {
+                    $this->playlistCtl->createPlaylist($request, Auth::id());
+                }
                 $this->addToPlayList($selectTid);
                 break;
             case 'albums':
@@ -68,9 +73,6 @@ class pageController extends Controller
                 $this->peopleCtl->store($request, Auth::id());
                 break;
             case 'playlists':
-                if(!$this->playlistCtl->isPlaylistExist( Auth::id() ) ) {
-                    $this->playlistCtl->createPlaylist($request, Auth::id());
-                }
                 $data = $this->playlistCtl->getPlaylistTracks(Auth::id());
                 //add to playlist
                 //$this->songCtl->store($request, Auth::id());
@@ -91,6 +93,7 @@ class pageController extends Controller
     }
 
     public function addToPlayList($tid=null){
+        //check 
         //add the user selected track into the user's playlist 
         if($tid != null){
             SongController::storeToPlayList($tid);
