@@ -1,3 +1,7 @@
+The project source codes are stored under the folder named shareFolder. Used Homestead as the web server.
+PHP version : PHP 7.1.17 (cli) (built: Apr 26 2018 22:04:34) ( NTS )
+Mysql version: 5.7.22
+
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-homestead.svg"></p>
 
 <p align="center">
