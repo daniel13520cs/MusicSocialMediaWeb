@@ -31,7 +31,7 @@ Install any web server. Recommend apache web server or phpstrom ide to open inde
 
 ## Demo
 
-WebSite : http://phplaravel-198465-593605.cloudwaysapps.com/people
+WebSite : http://phplaravel-198465-593605.cloudwaysapps.com/
 
 
 ## Contributing
