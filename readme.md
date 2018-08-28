@@ -27,6 +27,12 @@ Install any web server. Recommend apache web server or phpstrom ide to open inde
 * CSS/HTML
 * MySQL
 * PHP
+* Laravel
+
+## Demo
+
+WebSite : http://www.danielhsiao.com.s3-website.us-east-2.amazonaws.com/forkify/
+
 
 ## Contributing
 
